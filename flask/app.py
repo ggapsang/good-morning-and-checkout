@@ -7,50 +7,22 @@ app = Flask(__name__)
 def home() :
     return render_template('index.html')
 
-posts = [
-    {"id": 1, "title": "Post 1", 'content': 'This is post 1'},
-    {"id": 2, "title": "Post 2", 'content': 'This is post 2'},
-    {"id": 3, "title": "Post 3", 'content': 'This is post 3'}
-]
+# 딥러닝 모델을 대신할 간단한 함수 (실제 모델 호출로 교체 가능)
+def dummy_model(prompt):
+    return f"Processed: {prompt}"
 
-# GET /posts - 모든 게시물 조회
-@app.route('/posts', methods=['GET'])
-def get_posts():
-    return jsonify(posts)
+# 프롬프트를 받아 모델 결과 반환
+@app.route('/predict', methods=['POST'])
+def predict():
+    # 클라이언트에서 보낸 JSON 데이터
+    data = request.json
+    prompt = data.get('prompt', '')
 
-# GET /posts/<int:post_id> - 특정 게시물 조회
-@app.route('/posts/<int:post_id>', methods=['GET'])
-def get_post(post_id):
-    post = next((post for post in posts if post['id'] == post_id), None)
-    if post:
-        return jsonify(post)
-    return jsonify({"message": "Post not found"}), 404
+    # 모델 실행 (여기선 dummy_model 사용)
+    result = dummy_model(prompt)
 
-# POST /posts - 새 게시물 생성
-@app.route('/posts', methods=['POST'])
-def create_post():
-    new_post = request.json
-    new_post["id"] = len(posts) + 1
-    posts.append(new_post)
-    return jsonify(new_post), 201
-
-# PUT /posts/<int:post_id> - 특정 게시물 수정
-@app.route('/posts/<int:post_id>', methods=['PUT'])
-def update_post(post_id):
-    post = next((p for p in posts if p["id"] == post_id), None)
-    if post:
-        updated_data = request.json
-        post.update(updated_data)
-        return jsonify(post)
-    else:
-        return jsonify({"error": "Post not found"}), 404
-
-# DELETE /posts/<int:post_id> - 특정 게시물 삭제
-@app.route('/posts/<int:post_id>', methods=['DELETE'])
-def delete_post(post_id):
-    global posts
-    posts = [p for p in posts if p["id"] != post_id]
-    return jsonify({"message": "Post deleted"}), 200
+    # 결과 반환
+    return jsonify({"prompt": prompt, "result": result})
 
 if __name__ == '__main__':
     app.run(debug=True)
