@@ -114,6 +114,8 @@ st.markdown("#### Youtube Link")
 #     load_dotenv()
 # API_KEY = os.getenv("GOOGLE_API_KEY")
 
+API_KEY = st.secrets["API_KEY"]
+
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
 channel_id = "@MK_Invest"
