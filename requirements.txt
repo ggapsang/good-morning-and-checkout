@@ -1,6 +1,9 @@
 streamlit
 google-api-python-client
 python-dotenv
-FinanceDataReader
 pandas
 numpy
+requests
+beautifulsoup4
+lxml
+git+https://github.com/FinanceData/FinanceDataReader.git
