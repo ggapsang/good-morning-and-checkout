@@ -72,17 +72,14 @@ def get_latest_video_by_keyword(youtube, channel, search_query, is_handle=True):
     
     response = request.execute()
     
-    if response['items']:
-        item = response['items'][0]
-        video_id = item['id']['videoId']
-        title = item['snippet']['title']
-        url = f"https://www.youtube.com/watch?v={video_id}"
-        published_at = item['snippet']['publishedAt']
-        
-        return {
-            'title': title,
-            'url': url,
-            'published_at': published_at
-        }
-    else:
-        return None
+    item = response['items'][0]
+    video_id = item['id']['videoId']
+    title = item['snippet']['title']
+    url = f"https://www.youtube.com/watch?v={video_id}"
+    published_at = item['snippet']['publishedAt']
+    
+    return {
+        'title': title,
+        'url': url,
+        'published_at': published_at
+    }
