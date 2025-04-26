@@ -34,17 +34,37 @@ def get_today_us_market(df, container, date_string_today, date_string_yesterday,
         st.write(f"<span style='color:{color};'>{change_percent}%</span>", unsafe_allow_html=True)
 
 
-# API 키 설정
-API_KEY = "YOUR_API_KEY" 
-youtube = build('youtube', 'v3', developerKey=API_KEY)
-
-def get_latest_video_by_keyword(channel_id, query):
-    """특정 채널에서 키워드로 검색한 영상 중 가장 최신 영상 1개 반환"""
-
+def get_latest_video_by_keyword(youtube, channel, search_query, is_handle=True):
+    """
+    채널 이름 또는 ID로 최신 동영상 검색
+    is_handle이 True면 채널 핸들(@없는 형태)로 간주, False면 채널 ID로 간주
+    """
+    if is_handle:
+        # 핸들이라면 @ 제거
+        if channel.startswith('@'):
+            channel = channel[1:]
+            
+        # 먼저 핸들로 채널 ID 찾기
+        channel_request = youtube.search().list(
+            part="snippet",
+            q=channel,
+            type="channel",
+            maxResults=1
+        )
+        channel_response = channel_request.execute()
+        
+        if not channel_response['items']:
+            return None
+            
+        channel_id = channel_response['items'][0]['id']['channelId']
+    else:
+        channel_id = channel
+    
+    # 이제 찾은 채널 ID로 검색
     request = youtube.search().list(
         part="snippet",
         channelId=channel_id,
-        q=query,
+        q=search_query,
         type="video",
         maxResults=1,
         order="date"
@@ -66,15 +86,3 @@ def get_latest_video_by_keyword(channel_id, query):
         }
     else:
         return None
-
-# 사용 예시
-channel_id = "UC_CHANNEL_ID"  # 채널 ID 입력
-search_query = "검색어"  # 검색할 키워드
-latest_video = get_latest_video_by_keyword(channel_id, search_query)
-
-if latest_video:
-    print(f"제목: {latest_video['title']}")
-    print(f"URL: {latest_video['url']}")
-    print(f"업로드 날짜: {latest_video['published_at']}")
-else:
-    print("검색 결과가 없습니다.")
