@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 import os
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
 import streamlit as st
 import pandas as pd
@@ -109,11 +109,10 @@ st.markdown("---")
 
 # Youtue Link
 st.markdown("#### Youtube Link")
-if not os.getenv("GOOGLE_API_KEY"):
-    load_dotenv()
-
 # at local env, set GOOGLE_API_KEY in .env file
-API_KEY = os.getenv("GOOGLE_API_KEY")
+# if not os.getenv("GOOGLE_API_KEY"):
+#     load_dotenv()
+# API_KEY = os.getenv("GOOGLE_API_KEY")
 
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
