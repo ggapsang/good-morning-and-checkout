@@ -118,7 +118,7 @@ API_KEY = st.secrets["API_KEY"]
 
 youtube = build('youtube', 'v3', developerKey=API_KEY)
 
-channel_id = "@MK_Invest"
+channel_id = "UCIipmgxpUxDmPP-ma3Ahvbw" # 매경 월가월부
 search_query = "홍장원의 불앤베어"
 video_search_result = get_latest_video_by_keyword(youtube, channel_id, search_query)
 
