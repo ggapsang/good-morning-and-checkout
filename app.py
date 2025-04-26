@@ -8,7 +8,7 @@ import numpy as np
 
 import FinanceDataReader as fdr
 from googleapiclient.discovery import build
-from utils import get_today_us_market, get_latest_video_by_keyword
+from utils import render_today_market, get_latest_video_by_keyword
 
 date_today = date.today()   
 date_yesterday = date.today() - timedelta(days=1)
@@ -39,27 +39,27 @@ col1, col2, col3, col4, col5 = st.columns(5)
 with col1 :
     container = st.container(border=True)
     container.markdown('###### S&P 500')
-    get_today_us_market(snp_df, container, date_string_today, date_string_yesterday)
+    render_today_market(snp_df, container)
 
 with col2 : 
     container = st.container(border=True)
     container.markdown('###### NASDAQ')
-    get_today_us_market(nasdaq_df, container, date_string_today, date_string_yesterday)
+    render_today_market(nasdaq_df, container)
 
 with col3 :
     container = st.container(border=True)
     container.markdown('###### Dow')
-    get_today_us_market(dji_df, container, date_string_today, date_string_yesterday)
+    render_today_market(dji_df, container)
 
 with col4 :
     container = st.container(border=True)
     container.markdown('###### Russell')
-    get_today_us_market(rut_df, container, date_string_today, date_string_yesterday)
+    render_today_market(rut_df, container)
 
 with col5 :
     container = st.container(border=True)
     container.markdown('###### VIX')
-    get_today_us_market(vix_df, container, date_string_today, date_string_yesterday)
+    render_today_market(vix_df, container)
 
 st.markdown("---")
 
@@ -70,22 +70,22 @@ col1, col2, col3, col4 = st.columns(4)
 with col1 :
     container = st.container(border=True)
     container.markdown('###### USD Index')
-    get_today_us_market(usd_idx_df, container, date_string_today, date_string_yesterday)
+    render_today_market(usd_idx_df, container)
 
 with col2 :
     container = st.container(border=True)
     container.markdown('###### USD/KRW')
-    get_today_us_market(usd_kr_df, container, date_string_today, date_string_yesterday)
+    render_today_market(usd_kr_df, container)
 
 with col3 :
     container = st.container(border=True)
     container.markdown('###### EUR/KRW')
-    get_today_us_market(eur_kr_df, container, date_string_today, date_string_yesterday)
+    render_today_market(eur_kr_df, container)
 
 with col4 :
     container = st.container(border=True)
     container.markdown('###### JPY/KRW')
-    get_today_us_market(jpy_kr_df, container, date_string_today, date_string_yesterday, jpy_100=True)
+    render_today_market(jpy_kr_df, container, jpy_100=True)
 
 st.markdown("---")
 
@@ -97,18 +97,19 @@ col1, col2 = st.columns(2)
 with col1 :
     container = st.container(border=True)
     container.markdown('###### 10Y US Treasury')
-    get_today_us_market(fdr.DataReader('^TNX'), container, date_string_today, date_string_yesterday)
+    render_today_market(fdr.DataReader('^TNX'), container)
 
 with col2 :
     container = st.container(border=True)
     container.markdown('###### Gold')
-    get_today_us_market(fdr.DataReader('GC=F'), container, date_string_today, date_string_yesterday)
+    render_today_market(fdr.DataReader('GC=F'), container)
 
 st.markdown("---")
 
 
 # Youtue Link
 st.markdown("#### Youtube Link")
+
 # at local env, set GOOGLE_API_KEY in .env file
 # if not os.getenv("GOOGLE_API_KEY"):
 #     load_dotenv()

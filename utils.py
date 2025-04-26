@@ -7,7 +7,7 @@ import numpy as np
 import FinanceDataReader as fdr
 from googleapiclient.discovery import build
 
-def get_today_us_market(df, container, date_string_today, date_string_yesterday, jpy_100=False):
+def render_today_market(df, container, jpy_100=False):
     
     index = df['Close'].head(1).values[0]
     change = df['Close'].head(1).values[0] - df['Close'].head(2).values[1]
