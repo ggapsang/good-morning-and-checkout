@@ -18,7 +18,7 @@ st.set_page_config(layout="wide")
 st.title("Good Morning, World!")
 st.markdown("---")
 
-col1, col2 = st.columns([1, 2])
+col1, col2 = st.columns([1, 1.73])
 
 with col1:
     render_left_side()

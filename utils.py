@@ -14,10 +14,10 @@ def render_today_market(df, container, jpy_100=False):
     change_percent = (df['Close'].head(1).values[0] - df['Close'].head(2).values[1]) / df['Close'].head(2).values[1] * 100
 
     if jpy_100:
-        index = np.round(index, 2) * 100
+        index = np.round(index, 1) * 100
         change = np.round(change, 2) * 100
     else:
-        index = np.round(index, 2)
+        index = np.round(index, 1)
         change = np.round(change, 2)
     change_percent = np.round(change_percent, 2)
 
