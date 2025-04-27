@@ -31,13 +31,13 @@ with col1:
     # Youtue Link
     st.markdown("#### Youtube Link")
 
-    # at local env, set GOOGLE_API_KEY in .env file
-    if not os.getenv("GOOGLE_API_KEY"):
-        load_dotenv()
-    API_KEY = os.getenv("GOOGLE_API_KEY")
+    # # at local env, set GOOGLE_API_KEY in .env file
+    # if not os.getenv("GOOGLE_API_KEY"):
+    #     load_dotenv()
+    # API_KEY = os.getenv("GOOGLE_API_KEY")
 
-    # # streamlit cloud
-    # API_KEY = st.secrets["API_KEY"]
+    # streamlit cloud
+    API_KEY = st.secrets["API_KEY"]
 
     youtube = build('youtube', 'v3', developerKey=API_KEY)
 
