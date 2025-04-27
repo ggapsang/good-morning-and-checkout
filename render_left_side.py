@@ -9,7 +9,7 @@ import numpy as np
 import FinanceDataReader as fdr
 from googleapiclient.discovery import build
 import market_data as md
-from utils import render_today_market, get_latest_video_by_keyword
+from utils import render_today_market
 
 def render_left_side():
 
@@ -79,11 +79,11 @@ def render_left_side():
     with col1 :
         container = st.container(border=True)
         container.markdown('###### 10Y US Treasury')
-        render_today_market(fdr.DataReader('^TNX'), container)
+        render_today_market(md.bond_df, container)
 
     with col2 :
         container = st.container(border=True)
         container.markdown('###### Gold')
-        render_today_market(fdr.DataReader('GC=F'), container)
+        render_today_market(md.gold_df, container)
 
     st.markdown("---")

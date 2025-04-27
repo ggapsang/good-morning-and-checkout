@@ -11,6 +11,7 @@ from googleapiclient.discovery import build
 import market_data as md
 from utils import render_today_market, get_latest_video_by_keyword
 from render_left_side import render_left_side
+from render_right_side import render_right_side
 
 st.set_page_config(layout="wide")
 
@@ -21,28 +22,31 @@ col1, col2 = st.columns([1, 2])
 
 with col1:
     render_left_side()
+
 with col2:
-    st.write("Here rendered right side")
+    render_right_side()
 
-# Youtue Link
-st.markdown("#### Youtube Link")
+with col1:
+    
+    # Youtue Link
+    st.markdown("#### Youtube Link")
 
-# at local env, set GOOGLE_API_KEY in .env file
-if not os.getenv("GOOGLE_API_KEY"):
-    load_dotenv()
-API_KEY = os.getenv("GOOGLE_API_KEY")
+    # at local env, set GOOGLE_API_KEY in .env file
+    if not os.getenv("GOOGLE_API_KEY"):
+        load_dotenv()
+    API_KEY = os.getenv("GOOGLE_API_KEY")
 
-# # streamlit cloud
-# API_KEY = st.secrets["API_KEY"]
+    # # streamlit cloud
+    # API_KEY = st.secrets["API_KEY"]
 
-youtube = build('youtube', 'v3', developerKey=API_KEY)
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
 
-channel_id = "UCIipmgxpUxDmPP-ma3Ahvbw" # 매경 월가월부
-search_query = "홍장원의 불앤베어"
-video_search_result = get_latest_video_by_keyword(youtube, channel_id, search_query, is_handle=False)
+    channel_id = "UCIipmgxpUxDmPP-ma3Ahvbw" # 매경 월가월부
+    search_query = "홍장원의 불앤베어"
+    video_search_result = get_latest_video_by_keyword(youtube, channel_id, search_query, is_handle=False)
 
-if video_search_result :
-    st.write(f"{video_search_result['published_at']}")
-    st.video(f"{video_search_result['url']}")
+    if video_search_result :
+        st.write(f"{video_search_result['published_at']}")
+        st.video(f"{video_search_result['url']}")
 
-st.markdown("---")
+    st.markdown("---")

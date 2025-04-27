@@ -15,7 +15,11 @@ rut_df = fdr.DataReader('RUT').sort_index(ascending=False)
 vix_df = fdr.DataReader('VIX').sort_index(ascending=False)
 
 # Exchange Rate
-usd_idx_df = fdr.DataReader('^NYICDX')
+usd_idx_df = fdr.DataReader('^NYICDX').sort_index(ascending=False)
 usd_kr_df = fdr.DataReader('USD/KRW').sort_index(ascending=False)
 eur_kr_df = fdr.DataReader('EUR/KRW').sort_index(ascending=False)
 jpy_kr_df = fdr.DataReader('JPY/KRW').sort_index(ascending=False)
+
+# Bond, Gold
+bond_df = fdr.DataReader('US10YT').sort_index(ascending=False)
+gold_df = fdr.DataReader('GC=F').sort_index(ascending=False)

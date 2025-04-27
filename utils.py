@@ -6,9 +6,9 @@ import numpy as np
 
 import FinanceDataReader as fdr
 from googleapiclient.discovery import build
+import plotly.graph_objects as go
 
 def render_today_market(df, container, jpy_100=False):
-    
     index = df['Close'].head(1).values[0]
     change = df['Close'].head(1).values[0] - df['Close'].head(2).values[1]
     change_percent = (df['Close'].head(1).values[0] - df['Close'].head(2).values[1]) / df['Close'].head(2).values[1] * 100
@@ -33,6 +33,41 @@ def render_today_market(df, container, jpy_100=False):
         st.write(f"<span style='color:{color};'>{change}</span>", unsafe_allow_html=True)
         st.write(f"<span style='color:{color};'>{change_percent}%</span>", unsafe_allow_html=True)
 
+
+def create_candlestick(df, title='Candlestick Chart', yaxis_title='index', xaxis_title='date'):
+    # 이동평균선 계산
+    # df['MA5'] = df['Close'].rolling(window=5).mean()
+    df['MA20'] = df['Close'].rolling(window=20).mean()
+    df['MA60'] = df['Close'].rolling(window=60).mean()
+    df['MA120'] = df['Close'].rolling(window=120).mean()
+    df['MA180'] = df['Close'].rolling(window=180).mean()
+    
+    # 캔들차트 생성
+    fig = go.Figure(data=[go.Candlestick(
+        x=df.index,
+        open=df['Open'],
+        high=df['High'],
+        low=df['Low'],
+        close=df['Close'],
+        name='candle'
+    )])
+    
+    # 이동평균선 추가
+    # fig.add_trace(go.Scatter(x=df.index, y=df['MA5'], mode='lines', name='MA5', line=dict(color='blue')))
+    fig.add_trace(go.Scatter(x=df.index, y=df['MA20'], mode='lines', name='MA20', line=dict(color='orange')))
+    fig.add_trace(go.Scatter(x=df.index, y=df['MA60'], mode='lines', name='MA60', line=dict(color='green')))
+    fig.add_trace(go.Scatter(x=df.index, y=df['MA120'], mode='lines', name='MA120', line=dict(color='red')))
+    fig.add_trace(go.Scatter(x=df.index, y=df['MA180'], mode='lines', name='MA180', line=dict(color='purple')))
+    
+    # 레이아웃 설정
+    fig.update_layout(
+        title=title,
+        yaxis_title=yaxis_title,
+        xaxis_title=xaxis_title,
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="center", x=0.5)
+    )
+    
+    return fig
 
 @st.cache_data(ttl=3600*12)  # 12시간 동안 캐싱
 def get_latest_video_by_keyword(youtube, channel, search_query, is_handle=False):
@@ -71,3 +106,4 @@ def get_latest_video_by_keyword(youtube, channel, search_query, is_handle=False)
     except Exception as e:
         st.error(f"API 오류: {str(e)}")
         return None
+    
