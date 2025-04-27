@@ -70,14 +70,14 @@ def create_candlestick(df, title='Candlestick Chart', yaxis_title='index', xaxis
     return fig
 
 @st.cache_data(ttl=3600*12)  # 12시간 동안 캐싱
-def get_latest_video_by_keyword(youtube, channel, search_query, is_handle=False):
+def get_latest_video_by_keyword(_youtube, channel, search_query, is_handle=False):
     """채널 ID로 최신 동영상 검색 (캐싱 적용)"""
     
     # is_handle 파라미터가 False일 때는 channel을 ID로 바로 사용
     channel_id = channel
     
     # 채널 ID로 바로 검색
-    request = youtube.search().list(
+    request = _youtube.search().list(
         part="snippet",
         channelId=channel_id,
         q=search_query,
