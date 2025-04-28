@@ -6,4 +6,5 @@ numpy
 requests
 beautifulsoup4
 lxml
+gnews
 git+https://github.com/FinanceData/FinanceDataReader.git

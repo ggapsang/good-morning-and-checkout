@@ -25,30 +25,3 @@ with col1:
 
 with col2:
     render_right_side()
-
-with col1:
-    
-    # Youtue Link
-    st.markdown("#### Youtube Link")
-
-    if st.button("Refresh", key="refresh_youtube"):
-        
-        # # at local env, set GOOGLE_API_KEY in .env file
-        # if not os.getenv("GOOGLE_API_KEY"):
-        #     load_dotenv()
-        # API_KEY = os.getenv("GOOGLE_API_KEY")
-
-        # streamlit cloud
-        API_KEY = st.secrets["API_KEY"]
-
-        youtube = build('youtube', 'v3', developerKey=API_KEY)
-
-        channel_id = "UCIipmgxpUxDmPP-ma3Ahvbw" # 매경 월가월부
-        search_query = "홍장원의 불앤베어"
-        video_search_result = get_latest_video_by_keyword(youtube, channel_id, search_query, is_handle=False)
-
-        if video_search_result :
-            st.write(f"{video_search_result['published_at']}")
-            st.video(f"{video_search_result['url']}")
-
-        st.markdown("---")

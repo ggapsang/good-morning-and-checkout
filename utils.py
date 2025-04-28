@@ -8,7 +8,7 @@ import FinanceDataReader as fdr
 from googleapiclient.discovery import build
 import plotly.graph_objects as go
 
-def render_today_market(df, container, jpy_100=False):
+def render_today_market(df, container, label, jpy_100=False):
     index = df['Close'].head(1).values[0]
     change = df['Close'].head(1).values[0] - df['Close'].head(2).values[1]
     change_percent = (df['Close'].head(1).values[0] - df['Close'].head(2).values[1]) / df['Close'].head(2).values[1] * 100
@@ -21,17 +21,17 @@ def render_today_market(df, container, jpy_100=False):
         change = np.round(change, 2)
     change_percent = np.round(change_percent, 2)
 
-    if change > 0:
-        color = 'green'
-    elif change < 0:
-        color = 'red'
-    else:
-        color = 'black'
-    
     with container:
-        st.write(f"<span style='font-size:18px; font-weight:bold'>{index}</span>", unsafe_allow_html=True)
-        st.write(f"<span style='color:{color};'>{change}</span>", unsafe_allow_html=True)
-        st.write(f"<span style='color:{color};'>{change_percent}%</span>", unsafe_allow_html=True)
+        st.markdown(f"##### {change_percent}")
+        st.markdown("""
+        <style>
+        [data-testid="stMetricValue"] {
+            font-size: 1.5rem !important;
+            font-weight: bold !important;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+        st.metric(label=label, value=index, delta=change, delta_color="normal", help=f"{change} ({change_percent}%)")
 
 
 def create_candlestick(df, title='Candlestick Chart', yaxis_title='index', xaxis_title='date'):
