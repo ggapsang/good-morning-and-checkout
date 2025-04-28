@@ -30,7 +30,6 @@ with col1:
     
     # Youtue Link
     st.markdown("#### Youtube Link")
-    st.button("Refresh", key="refresh_youtube")
 
     if st.button("Refresh", key="refresh_youtube"):
         
