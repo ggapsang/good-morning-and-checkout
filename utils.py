@@ -21,8 +21,15 @@ def render_today_market(df, container, label, jpy_100=False):
         change = np.round(change, 2)
     change_percent = np.round(change_percent, 2)
 
+    if change > 0:
+        color = 'green'
+    elif change < 0:
+        color = 'red'
+    else:
+        color = 'black'
+    
     with container:
-        st.markdown(f"##### {change_percent}")
+        st.write(f"<span style='color:{color};'>{change_percent}%</span>", unsafe_allow_html=True)
         st.markdown("""
         <style>
         [data-testid="stMetricValue"] {
